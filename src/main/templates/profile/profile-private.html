@@ -1,0 +1,29 @@
+<div class="profile">
+  <div class="profile__main">
+    <h1>{{ profile.username }}</h1>
+    <div class="profile__instruments">
+      <a href="#" class="material-icon__wrapper">
+        <i class="material-icons">settings</i>
+        <span>Редактировать профиль</span>
+      </a>
+      <a href="{% url 'post-create' %}" class="material-icon__wrapper">
+        <i class="material-icons">add</i>
+        <span>Добавить новый пост</span>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="follow-cnt">
+    <a href="#" class="black-text"><b>{{ following_cnt }}</b> following</a>
+    <a href="#" class="black-text"><b>{{ followers_cnt }}</b> followers</a>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="posts">
+  <div class="row">
+    {% with posts=posts actions='admin'%}
+      {% include 'post/list-private.html' %}
+    {% endwith %}
+  </div>
+</div>

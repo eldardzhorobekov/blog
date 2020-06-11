@@ -1,10 +1,15 @@
+.container {
+  position: relative;
+}
 .follow-list {
-  max-width: 230px;
+  max-width: 250px;
   margin: 35px auto;
 }
 
-.follow-list__name {
-  color: #000;
+.follow-list li {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .follow-list__btn {
@@ -19,4 +24,52 @@
 .sign-in {
   width: 400px;
   margin: 30px auto;
+}
+
+.follow-cnt {
+  width: 200px;
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.material-icon__wrapper {
+  display: flex;
+  align-items: center;
+}
+.material-icon__wrapper span {
+  padding-left: 3px;
+}
+
+.post-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.profile {
+  margin-bottom: 20px;
+}
+
+.profile__main {
+  display: flex;
+  align-items: center;
+
+}
+.profile__main h1 {
+  margin: 20px 30px 20px 0;
+}
+
+.profile__instruments {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.admin-instruments {
+  padding-top: 5px;
+  display: flex;
+}
+.admin-instruments a {
+  margin-right: 10px;
 }

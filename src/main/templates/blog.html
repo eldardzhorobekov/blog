@@ -4,11 +4,11 @@
 
 {% block content %}
 
-  <h1>Name</h1>
+  <h1>{{ user.username }}</h1>
   <a href="#">49 following</a>
   <a href="#">49 followers</a>
   <div class="row">
-    {% with n=n actions='admin'%}
+    {% with posts=posts actions='admin'%}
       {% include 'inc/post/post-previews.html' %}
     {% endwith %}
   </div>

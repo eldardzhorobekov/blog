@@ -1,8 +1,15 @@
 <ul class="follow-list">
-  {% for i in n %}
+  {% for fl in follow_list %}
     <li>
-      <a href="#" class="follow-list__name">Name</a>
-      <a class="waves-effect waves-light blue-text right">Follow</a>
+      <a href="{% url 'profile' fl.username %}" class="material-icon__wrapper">
+        <i class="material-icons">person</i>
+        <span class="black-text">{{ fl.username }}</span>
+      </a>
+      {% if fl.is_following %}
+        <a class="waves-effect waves-light black-text">Following</a>
+      {% else %}
+        <a class="waves-effect waves-light blue-text darken-2">Follow</a>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>

@@ -1,18 +1,20 @@
 <nav>
   <div class="nav-wrapper blue">
-    <a href="{% url 'home' %}" class="brand-logo">Blog</a>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      {% if logged_in %}
+    <a href="{% url 'home' %}" class="brand-logo">Блог</a>
+    {% if not user.is_anonymous %}
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li>
-          <a href="{% url 'profile' %}">
-            <i class="material-icons">person</i>
-            Name
+          <a href="{% url 'profile' user.username %}" class="material-icon__wrapper">
+            <i class="material-icons left">person</i>
+            <span>{{ user }}</span>
           </a>
         </li>
-      {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
-      {% endif %}
-
-    </ul>
+        <li>
+          <a href="{% url 'logout' %}">
+            Выйти
+          </a>
+        </li>
+      </ul>
+    {% endif %}
   </div>
 </nav>

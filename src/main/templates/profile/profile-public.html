@@ -1,0 +1,22 @@
+<div class="profile">
+  <div class="profile__main">
+    <h1 style="float:left">{{ profile.username }}</h1>
+    {% if is_following %}
+      <a href="#" class="btn white black-text">Following</a>
+    {% else %}
+      <a href="#" class="btn blue">Follow</a>
+    {% endif %}
+  </div>
+  <div class="follow-cnt">
+    <a href="#" class="black-text"><b>{{ following_cnt }}</b> following</a>
+    <a href="#" class="black-text"><b>{{ followers_cnt }}</b> followers</a>
+  </div>
+</div>
+<div class="divider"></div>
+<div class="posts">
+  <div class="row">
+    {% with posts=posts actions='admin'%}
+      {% include 'post/list-public.html' %}
+    {% endwith %}
+  </div>
+</div>
