@@ -1,0 +1,22 @@
+.follow-list {
+  max-width: 230px;
+  margin: 35px auto;
+}
+
+.follow-list__name {
+  color: #000;
+}
+
+.follow-list__btn {
+  color: #2196f3;
+}
+
+
+.post {
+  margin-bottom: 20px;
+}
+
+.sign-in {
+  width: 400px;
+  margin: 30px auto;
+}

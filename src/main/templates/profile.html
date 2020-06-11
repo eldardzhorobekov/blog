@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block title %} Name {% endblock %}
+
+{% block content %}
+
+  <h1>Name</h1>
+  <a href="#">49 following</a>
+  <a href="#">49 followers</a>
+  <div class="row">
+    {% with n=n actions='admin'%}
+      {% include 'inc/post/post-previews.html' %}
+    {% endwith %}
+  </div>
+
+{% endblock %}

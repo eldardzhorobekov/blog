@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row">
+    <div class="col s12 m8">
+      {% with n=n actions='default'%}
+        {% include 'inc/post/post-previews.html' %}
+      {% endwith %}
+    </div>
+    <div class="col m4 hide-on-small-only">
+      {% with n=n %}
+        {% include 'inc/follow-list.html' %}
+      {% endwith %}
+    </div>
+  </div>
+{% endblock %}
