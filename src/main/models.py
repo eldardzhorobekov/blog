@@ -37,7 +37,7 @@ class Profile(AbstractUser):
 
     def get_related(self):
         is_following = Exists(Subscription.objects.filter(to_profile=self, from_profile=OuterRef('pk')))
-        return Profile.objects.exclude(pk=self.pk).annotate(is_following = is_following)
+        return Profile.objects.exclude(pk=self.pk).annotate(is_following = is_following).order_by('is_following')
 
     def get_posts(self):
         return Post.objects.filter(author=self)
@@ -52,7 +52,7 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
-    read_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users_read', blank=True, null=True)
+    read_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users_read', blank=True)
 
     def __str__(self):
         return self.title

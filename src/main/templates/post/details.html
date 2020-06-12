@@ -2,8 +2,15 @@
 {% block content %}
 <div class="post">
   <h1>{{ post.title }}</h1>
-  <a href="#">{{ post.author }}</a>
-  <span>{{ post.created_on }}</span>
+  <span>Автор:<a href="{% url 'profile' post.author %}"> {{ post.author }}</a></span>
+  <span style="padding-left: 20px">Дата: {{ post.created_on }}</span>
+  <div class="blue-text right mark-btn noselect" data-post-id="{{ post.id }}">
+    {% if is_read %}
+      <i class="small material-icons">bookmark</i>
+    {% else %}
+      <i class="small material-icons">bookmark_border</i>
+    {% endif %}
+  </div>
   <div class="truncate">{{ post.content }}</div>
 </div>
 {% endblock %}
