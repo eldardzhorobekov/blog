@@ -7,9 +7,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
 from main.models import Post, Profile
 from main.decorators import PostAuthorTest,AjaxTest
-import time
 
 
 class PostGeneralView():
@@ -35,7 +36,15 @@ class PostCreateView(PostGeneralView, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super(PostCreateView, self).form_valid(form)
+        response = super(PostCreateView, self).form_valid(form)
+
+        subject = 'Новый пост в вашей ленте!'
+        message = f'Автор <{self.object.author}> создал новый пост: "{self.object.title}"'
+        from_email = "Блог на Django"
+        recipient_list = [x[0] for x in list(self.object.author.subscriptions.values_list('email'))]
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        
+        return response
 
 
 @method_decorator(login_required, name='dispatch')
