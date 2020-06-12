@@ -6,9 +6,9 @@
         <span class="black-text">{{ fl.username }}</span>
       </a>
       {% if fl.is_following %}
-        <a class="waves-effect waves-light black-text">Following</a>
+        <div class="follow-btn followed" data-username="{{ fl.username }}">Following</div>
       {% else %}
-        <a class="waves-effect waves-light blue-text darken-2">Follow</a>
+        <div class="follow-btn unfollowed" data-username="{{ fl.username }}">Follow</div>
       {% endif %}
     </li>
   {% endfor %}

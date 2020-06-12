@@ -20,37 +20,14 @@
     {% endblock %}
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script>
-    $(document).ready(function () {
-
-        const CSRF_TOKEN = '{{ csrf_token }}'
-        const data = {
-          csrfmiddlewaretoken: CSRF_TOKEN
-        }
-        $.ajaxSetup({
-          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-        });
-
-        $('.mark-btn').on('click', function() {
-          const icon = $(this).children('i');
-          const post_id = $(this).attr('data-post-id');
-          let url, _html;
-          if( $(icon).html() === 'bookmark_border') {
-            url = `/post/${post_id}/mark-read`
-            _html = 'bookmark'
-          } else {
-            url = `/post/${post_id}/mark-unread`
-            _html = 'bookmark_border'
-          }
-          $.post(url, function() {
-            $(icon).html(_html);
-          });
-        })
-
-
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
     });
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{% static 'script.js' %}"></script>
 </body>
 </html>

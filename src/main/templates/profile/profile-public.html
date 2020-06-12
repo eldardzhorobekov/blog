@@ -1,10 +1,10 @@
 <div class="profile">
   <div class="profile__main">
     <h1 style="float:left">{{ profile.username }}</h1>
-    {% if is_following %}
-      <a href="#" class="btn white black-text">Following</a>
+    {% if fl.is_following %}
+      <div class="follow-btn followed" data-username="{{ profile.username }}">Following</div>
     {% else %}
-      <a href="#" class="btn blue">Follow</a>
+      <div class="follow-btn unfollowed" data-username="{{ profile.username }}">Follow</div>
     {% endif %}
   </div>
   <div class="follow-cnt">

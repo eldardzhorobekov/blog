@@ -7,6 +7,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
 from main.models import Post, Profile
+from main.decorators import AjaxTest
+from django.http import JsonResponse
 
 
 @method_decorator(login_required, name='dispatch')
@@ -16,7 +18,7 @@ class ProfileView(DetailView):
     context_object_name = 'profile'
     slug_field = 'username'
     slug_url_kwarg = 'username'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = kwargs.get('object')
@@ -25,6 +27,24 @@ class ProfileView(DetailView):
         context['posts'] = profile.get_posts()
         context['is_following'] = self.request.user.is_following(profile)
         return context
+
+@method_decorator(login_required, name='dispatch')
+class ProfileFollowView(AjaxTest, View):
+    template_name = None
+    raise_exception = True
+    def post(self, *args, **kwargs):
+        t = kwargs.get('follow')
+        author = Profile.objects.get(username = kwargs.get('username'))
+        follower = self.request.user
+        if t == 'follow':
+            author.subscriptions.add(follower)
+            return JsonResponse({"success":True}, status=200)
+        elif t == 'unfollow':
+            author.subscriptions.remove(follower)
+            return JsonResponse({"success":True}, status=200)
+        else:
+            return JsonResponse({"success":False}, status=404)
+
 
 class LoginView(View):
     form_class = AuthenticationForm

@@ -12,10 +12,17 @@
   justify-content: space-between;
 }
 
-.follow-list__btn {
-  color: #2196f3;
+.follow-btn {
+  cursor: pointer;
 }
 
+.followed {
+  color: #000;
+}
+
+.unfollowed {
+  color: #2196F3;
+}
 
 .post {
   margin-bottom: 20px;

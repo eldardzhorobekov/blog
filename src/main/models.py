@@ -29,7 +29,7 @@ class Profile(AbstractUser):
         return self.subscriptions.filter(from_profiles__to_profile=self)
 
     def is_following(self, user):
-        return Subscription.objects.filter(to_profile=self, from_profile=user).exists()
+        return Subscription.objects.filter(to_profile=user, from_profile=self).exists()
 
     def get_feed(self):
         is_read = Post.objects.filter(pk=OuterRef('pk'), read_by__username=self)
