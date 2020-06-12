@@ -4,13 +4,15 @@
   <h1>{{ post.title }}</h1>
   <span>Автор:<a href="{% url 'profile' post.author %}"> {{ post.author }}</a></span>
   <span style="padding-left: 20px">Дата: {{ post.created_on }}</span>
-  <div class="blue-text right mark-btn noselect" data-post-id="{{ post.id }}">
-    {% if is_read %}
-      <i class="small material-icons">bookmark</i>
-    {% else %}
-      <i class="small material-icons">bookmark_border</i>
-    {% endif %}
-  </div>
+  {% if user != post.author %}
+    <div class="blue-text right mark-btn noselect" data-post-id="{{ post.id }}">
+      {% if is_read %}
+        <i class="small material-icons">bookmark</i>
+      {% else %}
+        <i class="small material-icons">bookmark_border</i>
+      {% endif %}
+    </div>
+  {% endif %}
   <div class="truncate">{{ post.content }}</div>
 </div>
 {% endblock %}

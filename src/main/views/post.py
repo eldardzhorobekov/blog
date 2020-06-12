@@ -40,10 +40,12 @@ class PostCreateView(PostGeneralView, CreateView):
 
         subject = 'Новый пост в вашей ленте!'
         message = f'Автор <{self.object.author}> создал новый пост: "{self.object.title}"'
-        from_email = "Блог на Django"
-        recipient_list = [x[0] for x in list(self.object.author.subscriptions.values_list('email'))]
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-        
+        from_email = self.object.author.email
+        recievers = self.object.author.subscriptions.values_list('email')
+        if recievers.count() > 0:
+            recievers = [u[0] for u in list(recievers)]
+            send_mail(subject, message, from_email, recievers, fail_silently=True)
+
         return response
 
 
