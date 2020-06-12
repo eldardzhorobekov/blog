@@ -12,7 +12,7 @@ class Profile(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, blank=False, null=False)
     subscriptions = models.ManyToManyField(
         to='self',
-        related_name='followers',
+        related_name='subscribers',
         symmetrical=False,
         through='Subscription'
     )
@@ -23,10 +23,10 @@ class Profile(AbstractUser):
         return self.username
 
     def get_followers(self):
-        return self.subscriptions.filter(to_profiles__from_profile=self)
+        return self.subscriptions.all()
 
     def get_following(self):
-        return self.subscriptions.filter(from_profiles__to_profile=self)
+        return Subscription.objects.filter(to_profile=self).values('from_profile')
 
     def is_following(self, user):
         return Subscription.objects.filter(to_profile=user, from_profile=self).exists()
@@ -36,8 +36,8 @@ class Profile(AbstractUser):
         return Post.objects.filter(author__in=self.get_following()).order_by('-created_on').annotate(is_read=Exists(is_read))
 
     def get_related(self):
-        is_following = Exists(Subscription.objects.filter(to_profile=self, from_profile=OuterRef('pk')))
-        return Profile.objects.exclude(pk=self.pk).annotate(is_following = is_following).order_by('is_following')
+        is_following = Subscription.objects.filter(to_profile=self, from_profile=OuterRef('pk'))
+        return Profile.objects.exclude(pk=self.pk).annotate(is_following = Exists(is_following)).order_by('is_following')
 
     def get_posts(self):
         return Post.objects.filter(author=self)
@@ -45,7 +45,8 @@ class Profile(AbstractUser):
 class Subscription(models.Model):
     from_profile = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='from_profiles', on_delete=models.CASCADE)
     to_profile = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='to_profiles', on_delete=models.CASCADE)
-
+    def __str__(self):
+        return self.from_profile.username + "<=" + self.to_profile.username
 
 class Post(models.Model):
     title = models.CharField(max_length=255, blank=False, default="New post", null=False)
