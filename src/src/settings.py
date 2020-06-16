@@ -143,4 +143,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'main.Profile'
 LOGIN_URL = '/login'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
