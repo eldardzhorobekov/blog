@@ -1,1 +1,1 @@
-web: gunicorn src.wsgi
+web: cd src && gunicorn src.wsgi
