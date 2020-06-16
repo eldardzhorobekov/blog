@@ -1,4 +1,4 @@
-# blog
+# Blog
 Реализация блога с подписками на Django
 
 
@@ -30,3 +30,11 @@
   
     EMAIL_HOST_USER=<ваша почта>
     EMAIL_HOST_PASSWORD=<ваш пароль>
+    
+    
+    
+##### Сайт в онлайн доступе по [ссылке](https://eldar.pythonanywhere.com)
+Чтобы войти: 
+        
+    Username: test
+    Password: test!querty
