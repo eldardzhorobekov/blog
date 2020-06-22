@@ -2,11 +2,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, TemplateView, DetailView, View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import render, redirect, reverse
-from django.urls import reverse_lazy
-from main.models import Post, Profile
+from django.views.generic import DetailView, View
+from django.shortcuts import render, redirect
+from main.models import Profile
 from main.decorators import AjaxTest
 from django.http import JsonResponse
 
@@ -28,22 +26,24 @@ class ProfileView(DetailView):
         context['is_following'] = self.request.user.is_following(profile)
         return context
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfileFollowView(AjaxTest, View):
     template_name = None
     raise_exception = True
+
     def post(self, *args, **kwargs):
         t = kwargs.get('follow')
-        author = Profile.objects.get(username = kwargs.get('username'))
+        author = Profile.objects.get(username=kwargs.get('username'))
         follower = self.request.user
         if t == 'follow':
             author.subscriptions.add(follower)
-            return JsonResponse({"success":True}, status=200)
+            return JsonResponse({"success": True}, status=200)
         elif t == 'unfollow':
             author.subscriptions.remove(follower)
-            return JsonResponse({"success":True}, status=200)
+            return JsonResponse({"success": True}, status=200)
         else:
-            return JsonResponse({"success":False}, status=404)
+            return JsonResponse({"success": False}, status=404)
 
 
 class LoginView(View):
