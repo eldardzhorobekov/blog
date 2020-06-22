@@ -4,8 +4,6 @@ from django.views.generic import DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import reverse
 from django.http import JsonResponse
-from django.core.mail import send_mail
-from django.conf import settings
 from main.models import Post
 from main.decorators import PostAuthorTest, AjaxTest
 
@@ -35,20 +33,7 @@ class PostCreateView(PostGeneralView, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        response = super(PostCreateView, self).form_valid(form)
-
-        subject = 'Новый пост в вашей ленте!'
-
-        message = 'Автор <%s> создал новый пост: %s' % (
-            self.object.author, self.objects.title)
-        from_email = settings.EMAIL_HOST_USER
-        recievers = self.object.author.subscriptions.values_list(
-            'email', flat=True)
-        if recievers.count() > 0:
-            send_mail(
-                subject, message, from_email, recievers, fail_silently=True
-            )
-        return response
+        return super(PostCreateView, self).form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
