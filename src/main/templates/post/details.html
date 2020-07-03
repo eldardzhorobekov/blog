@@ -4,6 +4,16 @@
   <h1>{{ post.title }}</h1>
   <span>Автор:<a href="{% url 'profile' post.author %}"> {{ post.author }}</a></span>
   <span style="padding-left: 20px">Дата: {{ post.created_on }}</span>
+
+  {% if post.thumbnail %}
+    <div class="post__image">
+      <img src="{{ post.thumbnail.url }}" alt="some"/>
+    </div>
+  {% else %}
+    {% comment %} No Image {% endcomment %}
+  {% endif %}
+  
+
   {% if user != post.author %}
     <div class="blue-text right mark-btn noselect" data-post-id="{{ post.id }}">
       {% if is_read %}

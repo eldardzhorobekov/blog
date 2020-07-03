@@ -93,3 +93,16 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+
+.post__image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  z-index: 100;
+  max-height: 400px;
+}
+
+.post__image img {
+  max-width: 100%;
+}

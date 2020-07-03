@@ -29,7 +29,7 @@ class PostDetailView(DetailView):
 class PostCreateView(PostGeneralView, CreateView):
     template_name = 'post/create.html'
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'thumbnail']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -40,7 +40,7 @@ class PostCreateView(PostGeneralView, CreateView):
 class PostUpdateView(PostGeneralView, PostAuthorTest, UpdateView):
     template_name = 'post/update.html'
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'thumbnail']
 
 
 @method_decorator(login_required, name='dispatch')

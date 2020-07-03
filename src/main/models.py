@@ -75,6 +75,9 @@ class Post(models.Model):
         related_name='posts')
     read_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='users_read', blank=True)
+    thumbnail = models.ImageField(upload_to='posts/', null=True, blank=True)
+
+
 
     def __str__(self):
         return self.title
