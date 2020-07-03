@@ -27,7 +27,7 @@ class PostDetailView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 class PostCreateView(PostGeneralView, CreateView):
-    template_name = 'post/create.html'
+    template_name = 'post/create_update.html'
     model = Post
     fields = ['title', 'content', 'thumbnail']
 
@@ -38,7 +38,7 @@ class PostCreateView(PostGeneralView, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class PostUpdateView(PostGeneralView, PostAuthorTest, UpdateView):
-    template_name = 'post/update.html'
+    template_name = 'post/create_update.html'
     model = Post
     fields = ['title', 'content', 'thumbnail']
 
