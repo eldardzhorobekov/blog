@@ -1,0 +1,56 @@
+{% comment %} This is a template for my custom field: MyCustomImageField {% endcomment %}
+{% comment %} It automatically shows image with <img> tag {% endcomment %}
+{% comment %} Initial template: django/forms/widgets/clearable_file_input.html {% endcomment %}
+{% if widget.is_initial %}
+    </br>
+    {{ widget.initial_text }}: 
+    <a href="{{ widget.value.url }}">{{ widget.value }}</a>
+    <img id="{{ widget.attrs.id }}__image" src="{{ widget.value.url }}" class="my_custom_image show">
+    {% if not widget.required %}
+        <label for="{{ widget.checkbox_id }}">
+            <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
+            <span>{{ widget.clear_checkbox_label }}</span>
+        </label>
+        </br>
+    {% endif %}
+    {{ widget.input_text }}:
+{% else %}
+    <img id="{{ widget.attrs.id }}__image" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="my_custom_image hide">
+{% endif %}
+
+<input class="" type="{{ widget.type }}" name="{{ widget.name }}"{% include "fields/attrs.html" %}>
+
+<style>
+    #{{ widget.attrs.id }}__image {
+        max-width: 100%;
+        max-height: 300px;
+    }
+    .my_custom_image {
+        display: block;
+        margin-bottom: 4px;
+    }
+    .hide {
+        display: none;
+    }
+</style>
+
+<script>
+    const fileToRead = document.getElementById('{{ widget.attrs.id }}');
+
+    fileToRead.addEventListener("change", function(event) {
+        var files = fileToRead.files;
+        if (files.length) {
+            const img = document.getElementById('{{ widget.attrs.id }}__image');
+            img.src = window.URL.createObjectURL(this.files[0]);
+            img.alt = 'uploaded image';
+            img.classList.remove('hide');
+
+            /*
+            console.log('From: main/templates/fields/my_custom_clearable_file_input.html');
+            console.log("Filename: " + files[0].name);
+            console.log("Type: " + files[0].type);
+            console.log("Size: " + files[0].size + " bytes");
+            */
+        }
+    });
+</script>

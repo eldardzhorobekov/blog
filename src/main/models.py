@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Exists, OuterRef
 from django.db import models
 from django.conf import settings
+from django import forms
 
 # Create your models here.
 
