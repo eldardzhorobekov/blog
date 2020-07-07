@@ -1,12 +1,12 @@
 {% if posts %}
 
   {% for post in posts %}
-    <div class="post">
+    <div class="post_wrapper">
+      {% with post=post %}
+        {% include 'post/post.html' %}
+      {% endwith %}
 
-      <a href="{% url 'post-details' post.id %}" class="black-text"><h3>{{ post.title }}</h3></a>
-      <span style="padding-left: 20px">Дата: {{ post.created_on }}</span>
-      <div class="truncate">{{ post.content }}</div>
-      <div class="instruments admin-instruments left">
+      <div class="post_general instruments admin-instruments left">
         <a href="{% url 'post-details' post.id %}" class="material-icon__wrapper">
           <i class="material-icons">remove_red_eye</i>
           <span>Посмотреть</span>
@@ -21,7 +21,6 @@
         </a>
       </div>
     </div>
-    <div class="divider"></div>
   {% endfor %}
 
 {% else %}

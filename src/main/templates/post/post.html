@@ -1,0 +1,18 @@
+<div class="post">
+    <a href="{% url 'post-details' post.id %}" class="post__general post__title black-text">{{ post.title }}</a>
+
+    <div class="default-flex post__general">
+        <span>Автор:<a href="{% url 'profile' post.author %}" class="post__author"> {{ post.author }}</a></span>
+        <span class="post__date">Дата: {{ post.created_on }}</span>
+    </div>
+    
+    {% if post.thumbnail %}
+        <div class="post__image">
+            <img src="{{ post.thumbnail.url }}" alt="some"/>
+        </div>
+    {% else %}
+        {% comment %} No Image {% endcomment %}
+    {% endif %}
+
+    <div class="post__general post__content truncate">{{ post.content }}</div>
+</div>
