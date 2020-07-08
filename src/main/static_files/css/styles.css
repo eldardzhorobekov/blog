@@ -1,6 +1,14 @@
 .container {
   position: relative;
 }
+
+
+.default-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .follow-list {
   max-width: 250px;
   margin: 35px auto;
@@ -24,8 +32,28 @@
   color: #2196F3;
 }
 
-.post {
-  margin-bottom: 20px;
+.post_wrapper {
+  border: 1px solid rgba(99, 110, 114,.5);
+  border-radius: 2.5px;
+  margin-top: 20px;
+  padding: 10px 0 0px 0;
+  overflow: hidden;
+}
+
+.post__general {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+.post__title {
+  font-size: 24px;
+}
+
+.post__content {
+  color: rgba(45, 52, 54,1.0);
+  font-size: 16px;
+  padding-top: 10px;
 }
 
 .sign-in {
@@ -67,6 +95,10 @@
   margin: 20px 30px 20px 0;
 }
 
+.instruments {
+  margin: 15px 0 10px;
+}
+
 .profile__instruments {
   display: flex;
   flex-direction: column;
@@ -92,4 +124,17 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+
+.post__image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  z-index: 100;
+  max-height: 400px;
+}
+
+.post__image img {
+  max-width: 100%;
 }

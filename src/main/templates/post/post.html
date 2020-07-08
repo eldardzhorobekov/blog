@@ -1,0 +1,33 @@
+{% load imagekit %}
+
+<div class="post">
+    <a href="{% url 'post-details' post.id %}" class="post__general post__title black-text">{{ post.title }}</a>
+
+    <div class="default-flex post__general">
+        <span>Автор:<a href="{% url 'profile' post.author %}" class="post__author"> {{ post.author }}</a></span>
+        <span class="post__date">Дата: {{ post.created_on }}</span>
+    </div>
+    
+    {% if post.thumbnail %}
+        <picture class="post__image">
+            {% for size in post.getSizes %}
+                {% for format in post.getFormats %}
+                    {% with appname='main:thumbnail_'|add:format|add:'_'|add:size %}
+                        {% generateimage appname source=post.thumbnail as th %}
+                        <source
+                            type="image/{{ format }}" 
+                            media="(min-width: {{ size }}px)"
+                            srcset="{{ th.url }} {{size}}w">
+                    {% endwith %}
+                {% endfor %}
+            {% endfor %}
+            <img
+                src="data:image/gif;base64,R0lGODlhAQABAPAAAPLy8gAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                alt="Image">
+        </picture>
+    {% else %}
+        {% comment %} No Image {% endcomment %}
+    {% endif %}
+
+    <div class="post__general post__content truncate">{{ post.content }}</div>
+</div>

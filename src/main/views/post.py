@@ -6,6 +6,7 @@ from django.shortcuts import reverse
 from django.http import JsonResponse
 from main.models import Post
 from main.decorators import PostAuthorTest, AjaxTest
+from main.forms import PostForm
 
 
 class PostGeneralView():
@@ -27,9 +28,9 @@ class PostDetailView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 class PostCreateView(PostGeneralView, CreateView):
-    template_name = 'post/create.html'
+    template_name = 'post/create_update.html'
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -38,9 +39,9 @@ class PostCreateView(PostGeneralView, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class PostUpdateView(PostGeneralView, PostAuthorTest, UpdateView):
-    template_name = 'post/update.html'
+    template_name = 'post/create_update.html'
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
 
 
 @method_decorator(login_required, name='dispatch')
