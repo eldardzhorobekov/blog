@@ -5,8 +5,11 @@ from django.db import models
 from django.conf import settings
 from django import forms
 
-# Create your models here.
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
+from main.fields import MyCustomFormImageField
+from main import image_generators
 
 class Profile(AbstractUser):
     email = models.EmailField(
@@ -76,10 +79,11 @@ class Post(models.Model):
         related_name='posts')
     read_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='users_read', blank=True)
-    thumbnail = models.ImageField(upload_to='posts/', null=True, blank=True)
 
-
-
+    thumbnail = ProcessedImageField(upload_to='posts/',
+                                    format='PNG',
+                                    options={'quality': 100},
+                                    null=True, blank=True)
     def __str__(self):
         return self.title
 
@@ -88,3 +92,9 @@ class Post(models.Model):
 
     def read_by_user(self, user):
         return self.read_by.filter(username=user.username).exists()
+    
+    def getSizes(self):
+        return image_generators.sizes
+    
+    def getFormats(self):
+        return image_generators.formats

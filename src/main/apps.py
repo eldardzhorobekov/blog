@@ -6,3 +6,4 @@ class MainConfig(AppConfig):
 
     def ready(self):
         import main.signals
+        import main.image_generators

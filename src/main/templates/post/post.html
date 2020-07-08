@@ -1,3 +1,5 @@
+{% load imagekit %}
+
 <div class="post">
     <a href="{% url 'post-details' post.id %}" class="post__general post__title black-text">{{ post.title }}</a>
 
@@ -7,9 +9,22 @@
     </div>
     
     {% if post.thumbnail %}
-        <div class="post__image">
-            <img src="{{ post.thumbnail.url }}" alt="some"/>
-        </div>
+        <picture class="post__image">
+            {% for size in post.getSizes %}
+                {% for format in post.getFormats %}
+                    {% with appname='main:thumbnail_'|add:format|add:'_'|add:size %}
+                        {% generateimage appname source=post.thumbnail as th %}
+                        <source
+                            type="image/{{ format }}" 
+                            media="(min-width: {{ size }}px)"
+                            srcset="{{ th.url }} {{size}}w">
+                    {% endwith %}
+                {% endfor %}
+            {% endfor %}
+            <img
+                src="data:image/gif;base64,R0lGODlhAQABAPAAAPLy8gAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                alt="Image">
+        </picture>
     {% else %}
         {% comment %} No Image {% endcomment %}
     {% endif %}

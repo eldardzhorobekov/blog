@@ -1,4 +1,6 @@
 from django import forms
+from django.db import models
+
 
 class MyCustomClearableFileInput(forms.ClearableFileInput):
     template_name = 'fields/my_custom_clearable_file_input.html'
@@ -9,5 +11,5 @@ class MyCustomClearableFileInput(forms.ClearableFileInput):
         return context
 
 
-class MyCustomImageField(forms.ImageField):
+class MyCustomFormImageField(forms.ImageField):
     widget = MyCustomClearableFileInput

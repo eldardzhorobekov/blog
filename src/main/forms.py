@@ -1,6 +1,6 @@
 from django import forms
 from main.models import Post
-from main.fields import MyCustomImageField
+from main.fields import MyCustomFormImageField
 
 
 class PostForm(forms.ModelForm):
@@ -12,6 +12,6 @@ class PostForm(forms.ModelForm):
             'content': forms.TextInput(attrs={'class': 'materialize-textarea'}),
         }
         field_classes = {
-            'thumbnail': MyCustomImageField,
+            'thumbnail': MyCustomFormImageField,
         }
 
