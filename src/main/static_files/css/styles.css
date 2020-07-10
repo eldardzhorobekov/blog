@@ -140,8 +140,20 @@
 }
 
 
-.profile-edit-container {
+.profile-form-container {
   max-width: 350px;
   margin: 0 auto;
   width: 100%;
+}
+
+label {
+  color: rgba(140,140,140, 1.0);
+}
+.profile-change-password ul > li {
+  color: rgba(158,158,158, .8);
+  font-size: 0.85rem;
+}
+
+.profile-change-password ul.errorlist > li {
+  color: red;
 }

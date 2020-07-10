@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, View
 from django.shortcuts import render, redirect
@@ -40,12 +41,22 @@ class ProfileBaseView(DetailView):
 
 @method_decorator(login_required, name='dispatch')
 class ProfileEditView(UpdateView):
-    template_name = "profile/profile-edit.html"
+    template_name = 'profile/profile-edit.html'
     fields = ['first_name', 'last_name', 'email']
     success_url = reverse_lazy('profile-base')
 
     def get_object(self):
         return self.request.user
+
+@method_decorator(login_required, name='dispatch')
+class ProfileChangePasswordView(PasswordChangeView):
+    template_name = 'profile/profile-change-password.html'
+
+@method_decorator(login_required, name='dispatch')
+class ProfilePasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'profile/profile-change-password-done.html'
+
+
 
 
 @method_decorator(login_required, name='dispatch')

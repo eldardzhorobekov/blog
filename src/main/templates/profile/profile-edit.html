@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 
-<div class="profile-edit-container">
+<div class="profile-form-container">
+    <h4>Profile Edit</h4>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
