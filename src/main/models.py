@@ -14,6 +14,13 @@ from main import image_generators
 class Profile(AbstractUser):
     email = models.EmailField(
         _('email address'), unique=True)
+    
+    avatar = ProcessedImageField(upload_to='profiles/',
+                                    processors=[ResizeToFill(100,100)],
+                                    format='PNG',
+                                    options={'quality': 90},
+                                    null=True, blank=True)
+
     subscriptions = models.ManyToManyField(
         to='self',
         related_name='subscribers',
@@ -84,6 +91,7 @@ class Post(models.Model):
                                     format='PNG',
                                     options={'quality': 100},
                                     null=True, blank=True)
+
     def __str__(self):
         return self.title
 

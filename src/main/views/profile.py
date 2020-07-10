@@ -11,6 +11,7 @@ from django.urls import reverse, reverse_lazy
 
 from main.models import Profile
 from main.decorators import AjaxTest
+from main.forms import EditProfileForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -42,21 +43,21 @@ class ProfileBaseView(DetailView):
 @method_decorator(login_required, name='dispatch')
 class ProfileEditView(UpdateView):
     template_name = 'profile/profile-edit.html'
-    fields = ['first_name', 'last_name', 'email']
+    form_class = EditProfileForm
     success_url = reverse_lazy('profile-base')
 
     def get_object(self):
         return self.request.user
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfileChangePasswordView(PasswordChangeView):
     template_name = 'profile/profile-change-password.html'
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfilePasswordChangeDoneView(PasswordChangeDoneView):
     template_name = 'profile/profile-change-password-done.html'
-
-
 
 
 @method_decorator(login_required, name='dispatch')

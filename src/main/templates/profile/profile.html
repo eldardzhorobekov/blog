@@ -1,8 +1,23 @@
 {% extends 'base.html'%}
+{% load static %}
 
 {% block title %} {{ profile.username }} {% endblock %}
 
 {% block content %}
+  
+  <div class="profile__general">
+    <div class="profile__image">
+      
+      {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" width="100px" height="100px" />
+      {% else %}
+        <img src="{% static 'img/person-black-18dp.svg' %}" width="100px" height="100px" />
+      {% endif %}
+      
+    </div>
+    <div class="profile__username">{{ profile.username }}</div>
+  </div>
+
   {% if profile == user %}
     {% include 'profile/profile-private.html' %}
   {% else %}

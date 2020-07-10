@@ -20,7 +20,11 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = (
-            'email',
             'first_name',
-            'last_name'
+            'last_name',
+            'email',
+            'avatar'
         )
+        field_classes = {
+            'avatar': MyCustomFormImageField
+        }
