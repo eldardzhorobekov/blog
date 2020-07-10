@@ -16,8 +16,19 @@
       
     </div>
     <div class="profile__username">{{ profile.username }}</div>
+    
+    {% if is_following %}
+        <div class="follow-btn followed" data-username="{{ profile.username }}">Following</div>
+    {% else %}
+        <div class="follow-btn unfollowed" data-username="{{ profile.username }}">Follow</div>
+    {% endif %}
+
+  
   </div>
 
+  {% with following_cnt=following_cnt followers_cnt=followers_cnt %}
+    {% include 'profile/profile-follows.html' %}
+  {% endwith %}
   {% if profile == user %}
     {% include 'profile/profile-private.html' %}
   {% else %}

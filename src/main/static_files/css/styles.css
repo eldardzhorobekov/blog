@@ -22,14 +22,17 @@
 
 .follow-btn {
   cursor: pointer;
+  margin-left: 20px;
 }
 
 .followed {
   color: #000;
+  border-bottom: 1px solid #000;
 }
 
 .unfollowed {
   color: #2196F3;
+  border-bottom: 1px solid #2196F3;
 }
 
 .post_wrapper {
@@ -173,4 +176,9 @@ label {
 
 .profile-change-password ul.errorlist > li {
   color: red;
+}
+
+
+.profile-follows {
+  margin-bottom: 15px;
 }

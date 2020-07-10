@@ -42,8 +42,7 @@ class Profile(AbstractUser):
             to_profile=self).values('from_profile')
 
     def is_following(self, user):
-        return Subscription.objects.filter(
-            to_profile=user, from_profile=self).exists()
+        return user.get_followers().filter(pk=self.pk).exists()
 
     def get_feed(self):
         is_read = Post.objects.filter(

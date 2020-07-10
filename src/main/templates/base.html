@@ -16,11 +16,12 @@
   <div class="container">
     {% include 'inc/header.html' %}
     {% block content %}
-      <h1>Страницы: Моя лента, Профиль, Вход, Регистрация</h1>
+      {% comment %} <h1>Страницы: Моя лента, Профиль, Вход, Регистрация</h1> {% endcomment %}
     {% endblock %}
   </div>
 
-  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/materialize.min.js' %}"></script>
   <script>
     $.ajaxSetup({
       data: {csrfmiddlewaretoken: '{{ csrf_token }}' },

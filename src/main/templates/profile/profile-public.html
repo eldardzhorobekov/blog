@@ -1,16 +1,3 @@
-<div class="profile">
-  <div class="profile__main">
-    {% if fl.is_following %}
-      <div class="follow-btn followed" data-username="{{ profile.username }}">Following</div>
-    {% else %}
-      <div class="follow-btn unfollowed" data-username="{{ profile.username }}">Follow</div>
-    {% endif %}
-  </div>
-  <div class="follow-cnt">
-    <span class="black-text"><b>{{ following_cnt }}</b> following</span>
-    <span class="black-text"><b>{{ followers_cnt }}</b> followers</span>
-  </div>
-</div>
 <div class="divider"></div>
 <div class="posts">
   <div class="row">
