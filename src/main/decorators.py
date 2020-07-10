@@ -7,7 +7,7 @@ class IsAuthorOfPostTest(UserPassesTestMixin):
 
     def test_func(self):
         post = Post.objects.get(pk=self.kwargs.get('pk'))
-        return post.author == self.request.user
+        return self.request.user.is_authenticated and post.author == self.request.user
 
     def handle_no_permission(self):
         return redirect('post-details', pk=self.kwargs.get('pk'))
@@ -16,11 +16,11 @@ class IsAuthorOfPostTest(UserPassesTestMixin):
 class AuthenticationTest(UserPassesTestMixin):
 
     def test_func(self):
-        requested_user = Profile.objects.get(username=self.kwargs.get('slug'))
-        return requested_user == self.request.user
+        requested_user = Profile.objects.get(username=self.kwargs.get('username'))
+        return self.request.user.is_authenticated and requested_user == self.request.user
     
     def handle_no_permission(self):
-        return redirect('profile', username=self.kwargs.get('slug'))
+        return redirect('profile', username=self.kwargs.get('username'))
 
 
 class AjaxTest(UserPassesTestMixin):

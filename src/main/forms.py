@@ -1,5 +1,6 @@
 from django import forms
-from main.models import Post
+
+from main.models import Post, Profile
 from main.fields import MyCustomFormImageField
 
 
@@ -15,3 +16,11 @@ class PostForm(forms.ModelForm):
             'thumbnail': MyCustomFormImageField,
         }
 
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = (
+            'email',
+            'first_name',
+            'last_name'
+        )

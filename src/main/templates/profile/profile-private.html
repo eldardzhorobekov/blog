@@ -2,7 +2,7 @@
   <div class="profile__main">
     <h1>{{ profile.username }}</h1>
     <div class="profile__instruments">
-      <a href="{% url 'profile-edit' slug=user.username %}" class="material-icon__wrapper">
+      <a href="{% url 'profile-edit' %}" class="material-icon__wrapper">
         <i class="material-icons">settings</i>
         <span>Редактировать профиль</span>
       </a>

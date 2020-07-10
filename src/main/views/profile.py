@@ -6,10 +6,10 @@ from django.views.generic import DetailView, View
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.generic.edit import UpdateView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from main.models import Profile
-from main.decorators import AjaxTest, AuthenticationTest
+from main.decorators import AjaxTest
 
 
 @method_decorator(login_required, name='dispatch')
@@ -29,17 +29,23 @@ class ProfileView(DetailView):
         context['is_following'] = self.request.user.is_following(profile)
         return context
 
+class ProfileBaseView(DetailView):
+    template_name = 'profile/profile.html'
+    model = Profile
+    context_object_name = 'profile'
+
+    def get_object(self):
+        return self.request.user
+
 
 @method_decorator(login_required, name='dispatch')
-class ProfileEditView(AuthenticationTest, UpdateView):
+class ProfileEditView(UpdateView):
     template_name = "profile/profile-edit.html"
-    model = Profile
     fields = ['first_name', 'last_name', 'email']
-    context_object_name = 'profile'
-    slug_field = 'username'
-    slug_url_kwarg = 'slug'
-    def get_success_url(self):
-        return reverse('profile', kwargs={'username': self.request.user})
+    success_url = reverse_lazy('profile-base')
+
+    def get_object(self):
+        return self.request.user
 
 
 @method_decorator(login_required, name='dispatch')
