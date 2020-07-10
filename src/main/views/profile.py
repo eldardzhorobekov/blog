@@ -4,9 +4,12 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, View
 from django.shortcuts import render, redirect
-from main.models import Profile
-from main.decorators import AjaxTest
 from django.http import JsonResponse
+from django.views.generic.edit import UpdateView
+from django.urls import reverse
+
+from main.models import Profile
+from main.decorators import AjaxTest, AuthenticationTest
 
 
 @method_decorator(login_required, name='dispatch')
@@ -25,6 +28,18 @@ class ProfileView(DetailView):
         context['posts'] = profile.get_posts()
         context['is_following'] = self.request.user.is_following(profile)
         return context
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileEditView(AuthenticationTest, UpdateView):
+    template_name = "profile/profile-edit.html"
+    model = Profile
+    fields = ['first_name', 'last_name', 'email']
+    context_object_name = 'profile'
+    slug_field = 'username'
+    slug_url_kwarg = 'slug'
+    def get_success_url(self):
+        return reverse('profile', kwargs={'username': self.request.user})
 
 
 @method_decorator(login_required, name='dispatch')

@@ -4,8 +4,9 @@ from django.views.generic import DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import reverse
 from django.http import JsonResponse
+
 from main.models import Post
-from main.decorators import PostAuthorTest, AjaxTest
+from main.decorators import IsAuthorOfPostTest, AjaxTest
 from main.forms import PostForm
 
 
@@ -38,14 +39,14 @@ class PostCreateView(PostGeneralView, CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class PostUpdateView(PostGeneralView, PostAuthorTest, UpdateView):
+class PostUpdateView(PostGeneralView, IsAuthorOfPostTest, UpdateView):
     template_name = 'post/create_update.html'
     model = Post
     form_class = PostForm
 
 
 @method_decorator(login_required, name='dispatch')
-class PostDeleteView(PostGeneralView, PostAuthorTest, DeleteView):
+class PostDeleteView(PostGeneralView, IsAuthorOfPostTest, DeleteView):
     template_name = 'post/delete.html'
     model = Post
 
