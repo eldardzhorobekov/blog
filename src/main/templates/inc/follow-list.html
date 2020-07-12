@@ -1,14 +1,14 @@
-<ul class="follow-list">
+<ul class="follow__list">
   {% for fl in follow_list %}
-    <li>
+    <li class="follow__item">
       <a href="{% url 'profile' fl.username %}" class="material-icon__wrapper">
         <i class="material-icons">person</i>
         <span class="black-text">{{ fl.username }}</span>
       </a>
       {% if fl.is_following %}
-        <div class="follow-btn followed" data-username="{{ fl.username }}">Following</div>
+        <a href="#" class="follow__btn followed" data-username="{{ fl.username }}">Following</a>
       {% else %}
-        <div class="follow-btn unfollowed" data-username="{{ fl.username }}">Follow</div>
+        <a href="#" class="follow__btn unfollowed" data-username="{{ fl.username }}">Follow</a>
       {% endif %}
     </li>
   {% endfor %}

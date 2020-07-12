@@ -5,18 +5,47 @@
         <a href="#modal-following" id="modal-following-trigger" class="black-text modal-trigger"><b>{{ followers_cnt }}</b> followers</a>
     </div>
 
-    <div id="modal-followers" class="modal">
-        <div class="modal-content">
-            Followers
+    <div id="modal-followers" class="modal modal-follow">
+        <div class="modal-follow-content">
+            <div class="follow">
+                <div class="follow__title">Followers</div>
+                <ul class="follow__list follow__followers_list">
+                    {% comment %} Here we use AJAX to get list of followers {% endcomment %}
+                    {% comment %} A sample of follow item {% endcomment %}
+                    {% comment %}
+                        <li class="follow__item">
+                            <a href="/" class="material-icon__wrapper">
+                                <i class="material-icons">person</i>
+                                <span class="black-text">Eldar</span>
+                            </a>
+                            <a href="#" class="follow__btn followed" data-username="Eldar">Following</a>
+                        </li>
+                    {% endcomment %}
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div id="modal-following" class="modal">
+    <div id="modal-following" class="modal modal-follow">
         <div class="modal-content">
-            Following
+            <div class="follow">
+                <div class="follow__title">Followers</div>
+                <ul class="follow__list">
+                    <!-- Here we use AJAX to get list of followers -->
+                    <!--
+                        A sample of follow item
+                        <li class="follow__item">
+                            <a href="/" class="material-icon__wrapper">
+                                <i class="material-icons">person</i>
+                                <span class="black-text">Eldar</span>
+                            </a>
+                            <a href="#" class="follow__btn followed" data-username="Eldar">Following</a>
+                        </li>
+                    -->
+                </ul>
+            </div>
         </div>
     </div>
-
 </div>
 
 

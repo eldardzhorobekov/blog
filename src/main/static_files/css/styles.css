@@ -9,31 +9,57 @@
   align-items: center;
 }
 
-.follow-list {
-  max-width: 250px;
-  margin: 35px auto;
+.modal-follow {
+  max-width: 350px;
+  max-height: 400px;
+}
+.modal-follow-content {
+  overflow: hidden;
+  padding: 0;
 }
 
-.follow-list li {
-  margin-bottom: 5px;
+.follow {
+  overflow-y: hidden;
+}
+
+.follow__title {
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+}
+
+.follow__list {
+  width: 100%;
+  padding: 0 10px!important;
+  overflow-y: auto;
+}
+
+.follow__item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.follow-btn {
+.follow__btn {
   cursor: pointer;
-  margin-left: 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 1px 7px;
 }
 
 .followed {
   color: #000;
-  border-bottom: 1px solid #000;
+  border: 1px solid #ccc;
 }
 
 .unfollowed {
-  color: #2196F3;
-  border-bottom: 1px solid #2196F3;
+  color: #fff;
+  border: 1px solid #2196F3;
+  background: #2196F3;
 }
+
 
 .post_wrapper {
   border: 1px solid rgba(99, 110, 114,.5);

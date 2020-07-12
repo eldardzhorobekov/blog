@@ -17,12 +17,13 @@
     </div>
     <div class="profile__username">{{ profile.username }}</div>
     
-    {% if is_following %}
-        <div class="follow-btn followed" data-username="{{ profile.username }}">Following</div>
-    {% else %}
-        <div class="follow-btn unfollowed" data-username="{{ profile.username }}">Follow</div>
+    {% if profile is not user %}
+      {% if is_following %}
+          <div class="follow-btn followed" data-username="{{ profile.username }}">Following</div>
+      {% else %}
+          <div class="follow-btn unfollowed" data-username="{{ profile.username }}">Follow</div>
+      {% endif %}
     {% endif %}
-
   
   </div>
 
