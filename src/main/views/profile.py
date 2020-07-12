@@ -12,24 +12,8 @@ from django.urls import reverse, reverse_lazy
 from main.models import Profile
 from main.decorators import AjaxTest
 from main.forms import EditProfileForm
+from main.serializers import FollowUserSerializer
 
-
-@method_decorator(login_required, name='dispatch')
-class ProfileView(DetailView):
-    template_name = 'profile/profile.html'
-    model = Profile
-    context_object_name = 'profile'
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        profile = kwargs.get('object')
-        context['followers_cnt'] = profile.get_followers().count()
-        context['following_cnt'] = profile.get_following().count()
-        context['posts'] = profile.get_posts()
-        context['is_following'] = self.request.user.is_following(profile)
-        return context
 
 class ProfileBaseView(DetailView):
     template_name = 'profile/profile.html'
@@ -38,6 +22,23 @@ class ProfileBaseView(DetailView):
 
     def get_object(self):
         return self.request.user
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = kwargs.get('object')
+        context['followers_cnt'] = profile.get_followers().count()
+        context['following_cnt'] = profile.get_following().count()
+        context['posts'] = profile.get_posts()
+        context['is_following'] = self.request.user.is_following(profile)
+        print('~'*50)
+        print(context)
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileView(ProfileBaseView):
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -70,13 +71,39 @@ class ProfileFollowView(AjaxTest, View):
         author = Profile.objects.get(username=kwargs.get('username'))
         follower = self.request.user
         if t == 'follow':
-            author.subscriptions.add(follower)
+            author.followers.add(follower)
             return JsonResponse({"success": True}, status=200)
         elif t == 'unfollow':
-            author.subscriptions.remove(follower)
+            author.followers.remove(follower)
             return JsonResponse({"success": True}, status=200)
         else:
             return JsonResponse({"success": False}, status=404)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileFollowersView(AjaxTest, View):
+    template_name = None
+    raise_exception = True
+
+    def post(self, *args, **kwargs):
+        target_user = Profile.objects.get(username=kwargs.get('username'))
+        current_user = self.request.user
+        followers = current_user.get_target_users_followers(target_user)
+        serializer = FollowUserSerializer(followers, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileFollowingView(AjaxTest, View):
+    template_name = None
+    raise_exception = True
+
+    def post(self, *args, **kwargs):
+        target_user = Profile.objects.get(username=kwargs.get('username'))
+        current_user = self.request.user
+        followers = current_user.get_target_users_following(target_user)
+        serializer = FollowUserSerializer(followers, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
 class LoginView(View):

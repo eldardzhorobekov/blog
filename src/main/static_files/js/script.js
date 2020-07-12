@@ -4,7 +4,6 @@ $(document).ready(function () {
 
   const markBtn = $('.mark-btn');
   const followBtn = $('.follow__btn');
-
   $(markBtn).on('click', function() {
     const icon = $(this).children('i');
     const post_id = $(this).attr('data-post-id');
@@ -21,6 +20,9 @@ $(document).ready(function () {
     });
   });
 
+  const follow_list = $('.follow__list');
+  const followers_list = $('.follow__followers_list');
+  const following_list = $('.follow__following_list');
   const FOLLOWED = 'followed';
   const FOLLOWED_HTML = 'Following';
   const UNFOLLOWED = 'unfollowed';
@@ -42,27 +44,6 @@ $(document).ready(function () {
       $(btn).html(FOLLOWED_HTML);
     }
   }
-
-  $(followBtn).on('click', function() {
-    // This function makes AJAX request to server to make subscription
-    // and toggles the button's class and html value
-    const that = this;
-    const is_following = $(this).hasClass(FOLLOWED);
-    const username = $(this).attr('data-username');
-    const url = `/profile/${username}/` + (is_following ? 'unfollow' : 'follow');
-    $
-      .post(url, () => {
-        // console.log('Sending');
-      })
-      .done(() => {
-        toggleFollowBtn(that);
-        // console.log('Success!');
-      })
-      .fail(() => {
-        console.error('No subscription');
-      });
-  });
-
 
   function generateFollowItem(username='username', is_following=true) {
     // This function creates:
@@ -87,12 +68,47 @@ $(document).ready(function () {
     return parent_li;
   }
 
-  const followers_list = $('.follow__followers_list');
-  // for testing purpose
-  for(let i=0; i < 10; ++i) {
-    generateFollowItem(username='Followed user', is_following=true).appendTo(followers_list);
+  const getFollowList = function(event, url_func) {
+    return function() {
+      const parent_list = $($(this).attr('href')).find('.follow__list');
+      if($(parent_list).children().length > 0) return;
+
+      const username = 'eldar';
+      const url = url_func(username)
+      const posting = $.post(url);
+      posting
+        .done(data => {
+          console.log(data);
+          data.forEach((user) => {
+            generateFollowItem(user.username, user.is_following).appendTo(parent_list);
+          });
+        })
+        .fail(() => {
+          console.log('Something went wrong while getting followers list');
+        })
+    }
   }
-  for(let i=0; i < 5; ++i) {
-    generateFollowItem(username='Unfollowed user', is_following=false).appendTo(followers_list);
-  }
+  $('#modal-followers-trigger').bind('click', getFollowList(event, (username) => `/profile/${username}/get_followers`));
+  $('#modal-following-trigger').bind('click', getFollowList(event, (username) => `/profile/${username}/get_following`));
+
+  $(follow_list).on('click', '.follow__btn', function() {
+    // This function makes AJAX request to server to make subscription
+    // and toggles the button's class and html value
+
+    const that = this;
+    const is_following = $(this).hasClass(FOLLOWED);
+    const username = $(this).attr('data-username');
+    const url = `/profile/${username}/` + (is_following ? 'unfollow' : 'follow');
+    $
+      .post(url, () => {
+        console.log(`Sending Follow Request to ${username}`);
+      })
+      .done(() => {
+        toggleFollowBtn(that);
+        console.log('Success! Subsciption done');
+      })
+      .fail(() => {
+        console.error('No subscription');
+      });
+  });
 });

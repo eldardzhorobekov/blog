@@ -1,8 +1,8 @@
 <div class="profile-follows">
 
     <div class="follow-cnt">
-        <a href="#modal-followers" id="modal-followers-trigger" class="black-text modal-trigger"><b>{{ following_cnt }}</b> following</a>
-        <a href="#modal-following" id="modal-following-trigger" class="black-text modal-trigger"><b>{{ followers_cnt }}</b> followers</a>
+        <a href="#modal-followers" id="modal-followers-trigger" class="black-text modal-trigger"><b>{{ followers_cnt }}</b> followers</a>
+        <a href="#modal-following" id="modal-following-trigger" class="black-text modal-trigger"><b>{{ following_cnt }}</b> following</a>
     </div>
 
     <div id="modal-followers" class="modal modal-follow">
@@ -27,13 +27,13 @@
     </div>
 
     <div id="modal-following" class="modal modal-follow">
-        <div class="modal-content">
+        <div class="modal-follow-content">
             <div class="follow">
                 <div class="follow__title">Followers</div>
-                <ul class="follow__list">
-                    <!-- Here we use AJAX to get list of followers -->
-                    <!--
-                        A sample of follow item
+                <ul class="follow__list follow__following_list">
+                    {% comment %} Here we use AJAX to get list of followers {% endcomment %}
+                    {% comment %} A sample of follow item {% endcomment %}
+                    {% comment %}
                         <li class="follow__item">
                             <a href="/" class="material-icon__wrapper">
                                 <i class="material-icons">person</i>
@@ -41,7 +41,7 @@
                             </a>
                             <a href="#" class="follow__btn followed" data-username="Eldar">Following</a>
                         </li>
-                    -->
+                    {% endcomment %}
                 </ul>
             </div>
         </div>

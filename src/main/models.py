@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef,F
 from django.db import models
 from django.conf import settings
 from django import forms
@@ -21,9 +21,9 @@ class Profile(AbstractUser):
                                     options={'quality': 90},
                                     null=True, blank=True)
 
-    subscriptions = models.ManyToManyField(
+    followers = models.ManyToManyField(
         to='self',
-        related_name='subscribers',
+        related_name='following',
         symmetrical=False,
         through='Subscription'
     )
@@ -35,11 +35,10 @@ class Profile(AbstractUser):
         return self.username
 
     def get_followers(self):
-        return self.subscriptions.all()
+        return self.followers.all()
 
     def get_following(self):
-        return Subscription.objects.filter(
-            to_profile=self).values('from_profile')
+        return self.following.all()
 
     def is_following(self, user):
         return user.get_followers().filter(pk=self.pk).exists()
@@ -52,10 +51,30 @@ class Profile(AbstractUser):
                 is_read=Exists(is_read))
 
     def get_related(self):
+        queryset = Profile.objects.exclude(pk=self.pk)
+        return self.get_follow_annotated_profiles(queryset).order_by('is_following')
+
+    def get_follow_annotated_profiles(self, queryset):
+        # Returns queryset of annotated profiles: if 'self' user is following or not
+
         is_following = Subscription.objects.filter(
             to_profile=self, from_profile=OuterRef('pk'))
-        return Profile.objects.exclude(pk=self.pk).annotate(
-            is_following=Exists(is_following)).order_by('is_following')
+        return queryset.annotate(is_following=Exists(is_following))
+
+    def get_target_users_followers(self, target_user):
+        # This method returns all target user followers with annotation (whether a 'self' user is following or not)
+        # Returns Queryset.
+        # Values: username, is_following
+        followers = target_user.get_followers()
+        return self.get_follow_annotated_profiles(followers).values('username', 'is_following')
+
+    def get_target_users_following(self, target_user):
+        # This method returns all target user following with annotation (whether a 'self' user is following or not)
+        # Returns Queryset.
+        # Values: username, is_following
+        following = target_user.get_following()
+        return self.get_follow_annotated_profiles(following).values('is_following', 'username')
+        # return self.get_follow_annotated_profiles(following).values('is_following', username=F('from_profile__username'))
 
     def get_posts(self):
         return Post.objects.filter(author=self)
