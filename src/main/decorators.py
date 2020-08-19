@@ -18,7 +18,7 @@ class AuthenticationTest(UserPassesTestMixin):
     def test_func(self):
         requested_user = Profile.objects.get(username=self.kwargs.get('username'))
         return self.request.user.is_authenticated and requested_user == self.request.user
-    
+
     def handle_no_permission(self):
         return redirect('profile', username=self.kwargs.get('username'))
 
