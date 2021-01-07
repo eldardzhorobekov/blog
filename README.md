@@ -16,7 +16,7 @@
   В корне репозитория ввести команды:
       
       
-    sudo docker build
-    sudo docker-compose up
+    docker build
+    docker-compose up
 
 
